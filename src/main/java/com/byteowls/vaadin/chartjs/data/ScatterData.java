@@ -9,8 +9,8 @@ import elemental.json.Json;
 import elemental.json.JsonObject;
 
 /**
- * Data for the scatter line chart is passed in the form of an object. 
- * 
+ * Data for the scatter line chart is passed in the form of an object.
+ *
  * @author michael@byteowls.com
  *
  */
@@ -20,6 +20,14 @@ public class ScatterData implements JsonBuilder, Serializable {
 
     private Double x;
     private Double y;
+
+    public ScatterData() {
+    }
+
+    public ScatterData(Double x, Double y) {
+        this.x = x;
+        this.y = y;
+    }
 
     /**
      * X Value

@@ -5,6 +5,7 @@ import com.byteowls.vaadin.chartjs.utils.JUtils;
 import elemental.json.Json;
 import elemental.json.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,6 +52,8 @@ public class LineDataset extends DoubleDataset<LineDataset> {
     private Boolean showLine;
     private Boolean spanGaps;
     private Boolean steppedLine;
+
+    private List<ScatterData> scatterData;
 
     /**
      * Used if the type of a dataset is needed. e.g. combo chart type charts
@@ -307,11 +310,23 @@ public class LineDataset extends DoubleDataset<LineDataset> {
         return this;
     }
 
+    public LineDataset addData(Double x, Double y) {
+        if (scatterData == null) {
+            scatterData = new ArrayList<>();
+        }
+        scatterData.add(new ScatterData().x(x).y(y));
+        return this;
+    }
+
     @Override
     public JsonObject buildJson() {
         JsonObject map = Json.createObject();
         JUtils.putNotNull(map, "type", type);
-        JUtils.putNotNullNumbers(map, "data", getData());
+        if (scatterData != null) {
+            JUtils.putNotNullBuilders(map, "data", scatterData);
+        } else {
+            JUtils.putNotNullNumbers(map, "data", getData());
+        }
         JUtils.putNotNull(map, "label", label);
         JUtils.putNotNull(map, "xAxisID", xAxisID);
         JUtils.putNotNull(map, "yAxisID", yAxisID);
